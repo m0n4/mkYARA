@@ -2,6 +2,7 @@ from __future__ import print_function
 import idaapi
 import idc
 import idautils
+import ida_ida
 
 from mkyara import (
     YaraGenerator,
@@ -34,19 +35,9 @@ def get_selection():
     return start, end
 
 
-def get_inf_structure_bitness(info):
-    bits = 16
-    if info.is_64bit():
-        bits = 64
-    elif info.is_32bit():
-        bits = 32
-    return bits
-
-
 def get_arch_info():
-    info = idaapi.get_inf_structure()
-    proc = info.procName.lower()
-    bits = get_inf_structure_bitness(info)
+    proc = ida_ida.inf_get_procname()
+    bits = ida_ida.inf_get_app_bitness()
     instruction_set = None
     instruction_mode = None
 
